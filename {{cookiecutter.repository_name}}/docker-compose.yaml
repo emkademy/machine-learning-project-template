@@ -1,0 +1,56 @@
+version: "3.8"
+
+x-app-template: &APP_TEMPLATE
+  user: "${UID-1000}"
+  hostname: "${HOST_NAME:-{{cookiecutter.project_name}}}"
+  build:
+    context: .
+    cache_from:
+      - ${DOCKER_IMAGE_CACHE}
+    dockerfile: ./docker/Dockerfile
+    args:
+      USER_NAME: "${USER_NAME:-{{cookiecutter.project_name}}}"
+      USER_ID: "${UID:-1000}"
+  image: {{cookiecutter.project_name}}-model
+  env_file:
+    - .envs/.app
+  volumes:
+    - ./:/app/
+    - ~/.config/gcloud/:/home/kyuksel/.config/gcloud
+  ipc: host
+  init: true
+
+services:
+  app-dev:
+    <<: *APP_TEMPLATE
+    container_name: {{cookiecutter.project_name}}-model-dev
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+    profiles:
+      - dev
+
+  app-prod:
+    <<: *APP_TEMPLATE
+    container_name: {{cookiecutter.project_name}}-model-prod
+    env_file:
+      - .envs/.app
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+    profiles:
+      - prod
+
+  app-ci:
+    <<: *APP_TEMPLATE
+    container_name: {{cookiecutter.project_name}}-model-ci
+    profiles:
+      - ci

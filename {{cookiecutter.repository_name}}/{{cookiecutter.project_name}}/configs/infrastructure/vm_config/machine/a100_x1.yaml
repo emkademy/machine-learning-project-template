@@ -1,0 +1,6 @@
+defaults:
+  - machine_schema
+
+machine_type: a2-highgpu-1g
+accelerator_count: 1
+accelerator_type: nvidia-tesla-a100

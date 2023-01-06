@@ -1,0 +1,6 @@
+*
+
+!docker
+!{{cookiecutter.project_name}}/*
+!pyproject.toml
+!poetry.lock

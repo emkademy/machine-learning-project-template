@@ -1,0 +1,16 @@
+defaults:
+  - config_schema
+
+  - job_info: job_info_schema
+  - infrastructure: infrastructure_schema
+
+  - override hydra/job_logging: colorlog
+  - override hydra/hydra_logging: colorlog
+  - _self_
+
+hydra:
+  output_subdir: null
+  run:
+    dir: .
+
+seed: 1234

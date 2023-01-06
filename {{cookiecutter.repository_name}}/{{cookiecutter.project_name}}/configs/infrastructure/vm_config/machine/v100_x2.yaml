@@ -1,0 +1,6 @@
+defaults:
+  - machine_schema
+
+machine_type: n1-standard-16
+accelerator_count: 2
+accelerator_type: nvidia-tesla-v100

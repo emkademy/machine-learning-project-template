@@ -1,0 +1,4 @@
+defaults:
+  - vm_template_schema
+
+disk_image_name: {{cookiecutter.project_name}}-debian-nvidia-cu113
